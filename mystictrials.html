@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kingshot Wiki – Mystical Trial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300..700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="dark"] {
+      --color-bg: #0e0d0b;
+      --color-surface: #141310;
+      --color-surface-2: #1a1916;
+      --color-surface-offset: #201e1b;
+      --color-surface-dynamic: #2a2825;
+      --color-divider: #2e2c28;
+      --color-border: #3a3834;
+      --color-text: #e8e4da;
+      --color-text-muted: #9a9488;
+      --color-text-faint: #5c5a54;
+      --color-primary: #c9993a;
+      --color-primary-hover: #e6b55a;
+      --color-primary-highlight: #3a2e14;
+      --color-accent2: #6b9fa8;
+      --font-display: 'Cinzel', Georgia, serif;
+      --font-body: 'Inter', sans-serif;
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+      --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem;
+      --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem;
+      --space-16: 4rem; --space-20: 5rem;
+      --radius-sm: 0.375rem; --radius-md: 0.5rem;
+      --radius-lg: 0.75rem; --radius-xl: 1rem;
+      --shadow-md: 0 4px 12px oklch(0 0 0 / 0.4);
+      --shadow-lg: 0 12px 32px oklch(0 0 0 / 0.5);
+      --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    [data-theme="light"] {
+      --color-bg: #f5f3ee;
+      --color-surface: #faf9f6;
+      --color-surface-2: #ffffff;
+      --color-surface-offset: #ede9e2;
+      --color-surface-dynamic: #e3dfd7;
+      --color-divider: #d9d5ce;
+      --color-border: #ccc8c0;
+      --color-text: #1e1c18;
+      --color-text-muted: #6b6760;
+      --color-text-faint: #b0ada6;
+      --color-primary: #a07220;
+      --color-primary-hover: #7a5318;
+      --color-primary-highlight: #f0e8d4;
+      --color-accent2: #2e7a87;
+      --shadow-md: 0 4px 12px oklch(0.2 0.01 80 / 0.08);
+      --shadow-lg: 0 12px 32px oklch(0.2 0.01 80 / 0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); min-height: 100dvh; line-height: 1.65; }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: var(--color-primary); text-decoration: none; transition: color var(--transition-interactive); }
+    a:hover { color: var(--color-primary-hover); }
+    h1,h2,h3,h4 { font-family: var(--font-display); text-wrap: balance; line-height: 1.2; }
+    p, li { text-wrap: pretty; }
+    button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; transition: color var(--transition-interactive), background var(--transition-interactive); }
+
+    /* HEADER */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-3) var(--space-6);
+      display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+    }
+    .site-logo { display: flex; align-items: center; gap: var(--space-3); }
+    .site-logo svg { color: var(--color-primary); flex-shrink: 0; }
+    .site-logo-text { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; color: var(--color-text); letter-spacing: 0.03em; }
+    .site-logo-text span { color: var(--color-primary); }
+    .header-right { display: flex; align-items: center; gap: var(--space-4); }
+    .search-box {
+      display: flex; align-items: center; gap: var(--space-2);
+      background: var(--color-surface-offset); border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl); padding: var(--space-2) var(--space-4);
+      font-size: var(--text-sm); color: var(--color-text-muted);
+    }
+    .search-box input { background: none; border: none; outline: none; font: inherit; color: var(--color-text); width: 160px; }
+    .search-box input::placeholder { color: var(--color-text-faint); }
+    .theme-toggle {
+      width: 36px; height: 36px; border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-text-muted); background: var(--color-surface-offset);
+      border: 1px solid var(--color-border);
+    }
+    .theme-toggle:hover { color: var(--color-primary); background: var(--color-primary-highlight); }
+
+    /* HERO BANNER */
+    .hero-banner {
+      position: relative; overflow: hidden;
+      min-height: 300px; display: flex; align-items: center;
+      background: linear-gradient(135deg, #1a1200 0%, #0e0d0b 40%, #0a1a1c 100%);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-16) var(--space-6);
+    }
+    [data-theme="light"] .hero-banner { background: linear-gradient(135deg, #3a2800 0%, #5a3800 40%, #1a3a40 100%); }
+    .hero-banner::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 60% 50%, oklch(0.55 0.15 55 / 0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 80% at 20% 80%, oklch(0.45 0.1 200 / 0.08) 0%, transparent 60%);
+    }
+    .hero-content { position: relative; max-width: 800px; }
+    .hero-breadcrumb { font-size: var(--text-xs); color: #9a9488; margin-bottom: var(--space-4); text-transform: uppercase; letter-spacing: 0.1em; }
+    .hero-breadcrumb a { color: var(--color-accent2); }
+    .hero-title { font-size: var(--text-2xl); font-weight: 700; color: #f0e8d0; margin-bottom: var(--space-4); letter-spacing: 0.02em; }
+    .hero-subtitle { font-size: var(--text-base); color: #9a9488; max-width: 60ch; line-height: 1.6; }
+    .hero-badge { display: inline-flex; align-items: center; gap: var(--space-2); background: oklch(0.55 0.15 55 / 0.2); border: 1px solid oklch(0.55 0.15 55 / 0.4); border-radius: var(--radius-full); padding: var(--space-1) var(--space-3); font-size: var(--text-xs); color: #c9993a; margin-bottom: var(--space-4); letter-spacing: 0.05em; font-family: var(--font-display); }
+
+    /* LAYOUT */
+    .page-layout {
+      max-width: 1200px; margin: 0 auto;
+      padding: var(--space-8) var(--space-6);
+      display: grid; grid-template-columns: 240px 1fr;
+      gap: var(--space-10); align-items: start;
+    }
+
+    /* SIDEBAR */
+    .sidebar { position: sticky; top: 5rem; }
+    .toc-card {
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-md);
+    }
+    .toc-header {
+      padding: var(--space-4) var(--space-5); background: var(--color-surface-offset);
+      border-bottom: 1px solid var(--color-divider);
+      font-family: var(--font-display); font-size: var(--text-sm); font-weight: 600;
+      color: var(--color-text); letter-spacing: 0.05em; text-transform: uppercase;
+      display: flex; align-items: center; gap: var(--space-2);
+    }
+    .toc-header svg { color: var(--color-primary); }
+    .toc-list { list-style: none; padding: var(--space-3) 0; }
+    .toc-list li a {
+      display: flex; align-items: center; gap: var(--space-3);
+      padding: var(--space-2) var(--space-5); font-size: var(--text-sm);
+      color: var(--color-text-muted); border-left: 2px solid transparent;
+      transition: all var(--transition-interactive);
+    }
+    .toc-list li a:hover, .toc-list li a.active {
+      color: var(--color-primary); background: var(--color-primary-highlight);
+      border-left-color: var(--color-primary);
+    }
+    .toc-list li a .arena-emoji { font-size: 1em; flex-shrink: 0; }
+    .toc-divider { height: 1px; background: var(--color-divider); margin: var(--space-2) var(--space-5); }
+
+    /* MAIN CONTENT */
+    .wiki-content { min-width: 0; }
+    .section-intro {
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl); padding: var(--space-8);
+      margin-bottom: var(--space-8); box-shadow: var(--shadow-md);
+    }
+    .section-intro h2 { font-size: var(--text-xl); color: var(--color-primary); margin-bottom: var(--space-4); }
+    .section-intro p { color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-3); }
+    .section-intro p:last-child { margin-bottom: 0; }
+
+    /* RATIO LEGEND */
+    .ratio-legend {
+      display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--space-5);
+      padding-top: var(--space-5); border-top: 1px solid var(--color-divider);
+    }
+    .ratio-badge {
+      display: flex; align-items: center; gap: var(--space-2);
+      background: var(--color-surface-offset); border: 1px solid var(--color-border);
+      border-radius: var(--radius-full); padding: var(--space-1) var(--space-4);
+      font-size: var(--text-xs); font-weight: 600; color: var(--color-text-muted);
+    }
+    .ratio-badge .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot-inf { background: #4e9af1; }
+    .dot-cav { background: #c9993a; }
+    .dot-arc { background: #6db86d; }
+
+    /* ARENA CARDS */
+    .arena-section { margin-bottom: var(--space-8); scroll-margin-top: 5rem; }
+    .arena-card {
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-md);
+      transition: box-shadow var(--transition-interactive), transform var(--transition-interactive);
+    }
+    .arena-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .arena-card-header {
+      display: flex; align-items: center; gap: var(--space-4);
+      padding: var(--space-6) var(--space-8);
+      background: var(--color-surface-offset);
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .arena-icon {
+      width: 52px; height: 52px; border-radius: var(--radius-lg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; flex-shrink: 0;
+      border: 1px solid var(--color-border);
+    }
+    .arena-header-text { flex: 1; }
+    .arena-name { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; color: var(--color-text); }
+    .arena-tag { font-size: var(--text-xs); color: var(--color-text-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+    .arena-body { padding: var(--space-6) var(--space-8); display: grid; grid-template-columns: 1fr auto; gap: var(--space-8); align-items: start; }
+    .arena-desc { color: var(--color-text-muted); line-height: 1.7; font-size: var(--text-base); }
+    .arena-desc strong { color: var(--color-text); font-weight: 600; }
+    .arena-meta { flex-shrink: 0; }
+    .ratio-card {
+      background: var(--color-surface-offset); border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg); padding: var(--space-4) var(--space-5);
+      text-align: center; min-width: 160px;
+    }
+    .ratio-label { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-faint); margin-bottom: var(--space-3); font-family: var(--font-display); }
+    .ratio-numbers { display: flex; align-items: center; justify-content: center; gap: var(--space-2); margin-bottom: var(--space-3); }
+    .ratio-num { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; }
+    .ratio-sep { color: var(--color-text-faint); font-size: var(--text-sm); }
+    .ratio-num.inf { color: #4e9af1; }
+    .ratio-num.cav { color: #c9993a; }
+    .ratio-num.arc { color: #6db86d; }
+    .ratio-bar { display: flex; border-radius: var(--radius-full); overflow: hidden; height: 6px; gap: 2px; }
+    .ratio-bar-seg { height: 100%; border-radius: var(--radius-full); }
+    .bar-inf { background: #4e9af1; }
+    .bar-cav { background: #c9993a; }
+    .bar-arc { background: #6db86d; }
+    .unlock-badge {
+      display: flex; align-items: center; gap: var(--space-2);
+      background: var(--color-surface-dynamic); border: 1px solid var(--color-border);
+      border-radius: var(--radius-full); padding: var(--space-1) var(--space-3);
+      font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-3); justify-content: center;
+    }
+
+    /* ARENA COLORS */
+    .col { background: oklch(0.55 0.15 55 / 0.12); }
+    .fol { background: oklch(0.5 0.15 140 / 0.15); }
+    .cav { background: oklch(0.6 0.1 240 / 0.15); }
+    .kno { background: oklch(0.55 0.1 280 / 0.12); }
+    .mol { background: oklch(0.55 0.18 30 / 0.15); }
+    .rad { background: oklch(0.65 0.15 60 / 0.12); }
+
+    /* OVERVIEW TABLE */
+    .overview-section { margin-bottom: var(--space-8); }
+    .overview-section h2 { font-size: var(--text-xl); margin-bottom: var(--space-5); color: var(--color-text); }
+    .wiki-table {
+      width: 100%; border-collapse: collapse;
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-md);
+      font-size: var(--text-sm);
+    }
+    .wiki-table thead { background: var(--color-surface-offset); }
+    .wiki-table th {
+      padding: var(--space-3) var(--space-5); text-align: left;
+      font-family: var(--font-display); font-size: var(--text-xs); font-weight: 600;
+      color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .wiki-table td {
+      padding: var(--space-3) var(--space-5);
+      border-bottom: 1px solid var(--color-divider); color: var(--color-text-muted);
+      vertical-align: middle;
+    }
+    .wiki-table tr:last-child td { border-bottom: none; }
+    .wiki-table tr:hover td { background: var(--color-surface-offset); }
+    .wiki-table td:first-child { font-weight: 600; color: var(--color-text); }
+    .ratio-inline { display: flex; gap: 4px; align-items: center; font-family: var(--font-display); font-weight: 700; font-size: var(--text-sm); }
+
+    /* TIP BOX */
+    .tip-box {
+      background: oklch(0.55 0.15 55 / 0.08); border: 1px solid oklch(0.55 0.15 55 / 0.3);
+      border-radius: var(--radius-xl); padding: var(--space-6) var(--space-8);
+      margin-bottom: var(--space-8); display: flex; gap: var(--space-4); align-items: flex-start;
+    }
+    .tip-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+    .tip-content h3 { font-family: var(--font-display); font-size: var(--text-base); color: var(--color-primary); margin-bottom: var(--space-2); }
+    .tip-content p { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.65; }
+
+    /* FOOTER */
+    .site-footer {
+      border-top: 1px solid var(--color-border); padding: var(--space-8) var(--space-6);
+      text-align: center; color: var(--color-text-faint); font-size: var(--text-xs);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .arena-body { grid-template-columns: 1fr; }
+      .arena-card-header { padding: var(--space-4) var(--space-5); }
+      .arena-body { padding: var(--space-5); }
+      .search-box input { width: 100px; }
+      .hero-banner { padding: var(--space-10) var(--space-5); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="index.html" class="site-logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-label="Logo">
+      <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <polygon points="14,6 22,10 22,18 14,22 6,18 6,10" fill="currentColor" opacity="0.15"/>
+      <circle cx="14" cy="14" r="4" fill="currentColor" opacity="0.8"/>
+      <line x1="14" y1="2" x2="14" y2="6" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="14" y1="22" x2="14" y2="26" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="2" y1="8" x2="6" y2="10" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="22" y1="18" x2="26" y2="20" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="26" y1="8" x2="22" y2="10" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="2" y1="20" x2="6" y2="18" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+    <span class="site-logo-text">Kingshot<span>Wiki</span></span>
+  </a>
+  <nav class="site-nav">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="mystictrials.html" class="nav-link">⚔️ Mystic Trials</a>
+    <a href="heroroulette.html" class="nav-link active">🎰 Hero Roulette</a>
+    <a href="#" class="nav-link" style="opacity:.45;pointer-events:none;">🐾 Pets</a>
+    <a href="#" class="nav-link" style="opacity:.45;pointer-events:none;">🦸 Heroes</a>
+  </nav>
+  <div class="header-right">
+    <div class="translate-wrapper"><div id="google_translate_element"></div></div>
+    <button class="theme-toggle" data-theme-toggle aria-label="Switch theme">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero-banner">
+  <div class="hero-content">
+    <div class="hero-breadcrumb"><a href="#">Home</a> › Game Modes › Mystical Trial</div>
+    <div class="hero-badge">⚔️ Game Mode</div>
+    <h1 class="hero-title">Mystical Trial</h1>
+    <p class="hero-subtitle">Six unique arenas, each testing a different aspect of your account. Master every arena to prove your strength in Kingshot.</p>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="page-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <nav class="toc-card" aria-label="Table of contents">
+      <div class="toc-header">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Contents
+      </div>
+      <ul class="toc-list">
+        <li><a href="#overview"><span class="arena-emoji">📖</span> Overview</a></li>
+        <div class="toc-divider"></div>
+        <li><a href="#coliseum"><span class="arena-emoji">🏟️</span> Coliseum</a></li>
+        <li><a href="#forest"><span class="arena-emoji">🌿</span> Forest of Life</a></li>
+        <li><a href="#crystal"><span class="arena-emoji">💎</span> Crystal Cave</a></li>
+        <li><a href="#nexus"><span class="arena-emoji">📚</span> Knowledge Nexus</a></li>
+        <li><a href="#molten"><span class="arena-emoji">🔥</span> Molten Fort</a></li>
+        <li><a href="#spire"><span class="arena-emoji">🌟</span> Radiant Spire</a></li>
+        <div class="toc-divider"></div>
+        <li><a href="#table"><span class="arena-emoji">📊</span> Quick Reference</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="wiki-content">
+
+    <!-- INTRO -->
+    <section class="section-intro" id="overview">
+      <h2>What is the Mystical Trial?</h2>
+      <p>The <strong>Mystical Trial</strong> is one of Kingshot's most competitive PvE game modes, consisting of six distinct arenas. Each arena isolates a specific part of your account — from Heroes and Pets to Research and Governor Gear — and scores you based on how well you've developed that area.</p>
+      <p>Success across all arenas requires a <strong>well-rounded account</strong>. Neglecting any one system will show up immediately as a weak performance in its corresponding arena.</p>
+      <div class="ratio-legend">
+        <span style="font-size: var(--text-xs); color: var(--color-text-faint); text-transform: uppercase; letter-spacing: 0.08em; align-self: center;">Troop Ratio Legend:</span>
+        <div class="ratio-badge"><div class="dot dot-inf"></div> Infantry</div>
+        <div class="ratio-badge"><div class="dot dot-cav"></div> Cavalry</div>
+        <div class="ratio-badge"><div class="dot dot-arc"></div> Archers</div>
+      </div>
+    </section>
+
+    <!-- TIP -->
+    <div class="tip-box">
+      <div class="tip-icon">💡</div>
+      <div class="tip-content">
+        <h3>Pro Tip</h3>
+        <p>Each arena tests a different part of your account. Build everything well-rounded — a strong hero but weak research will still cost you in the Knowledge Nexus. The Radiant Spire combines all sources, so it rewards players who invest evenly across every system.</p>
+      </div>
+    </div>
+
+    <!-- COLISEUM -->
+    <div class="arena-section" id="coliseum">
+      <div class="arena-card">
+        <div class="arena-card-header">
+          <div class="arena-icon col">🏟️</div>
+          <div class="arena-header-text">
+            <div class="arena-name">Coliseum</div>
+            <div class="arena-tag">Arena 1 · Heroes</div>
+          </div>
+        </div>
+        <div class="arena-body">
+          <p class="arena-desc">Tests your <strong>Heroes</strong>, Hero Gear, and Hero Exclusive Widgets. The strength of your hero roster — their levels, equipped gear, and unlocked widgets — determines your performance here. Invest in upgrading your best combat heroes for maximum impact.</p>
+          <div class="arena-meta">
+            <div class="ratio-card">
+              <div class="ratio-label">Troop Ratio</div>
+              <div class="ratio-numbers">
+                <span class="ratio-num inf">50</span><span class="ratio-sep">/</span>
+                <span class="ratio-num cav">10</span><span class="ratio-sep">/</span>
+                <span class="ratio-num arc">40</span>
+              </div>
+              <div class="ratio-bar">
+                <div class="ratio-bar-seg bar-inf" style="flex: 50"></div>
+                <div class="ratio-bar-seg bar-cav" style="flex: 10"></div>
+                <div class="ratio-bar-seg bar-arc" style="flex: 40"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOREST OF LIFE -->
+    <div class="arena-section" id="forest">
+      <div class="arena-card">
+        <div class="arena-card-header">
+          <div class="arena-icon fol">🌿</div>
+          <div class="arena-header-text">
+            <div class="arena-name">Forest of Life</div>
+            <div class="arena-tag">Arena 2 · Pets</div>
+          </div>
+        </div>
+        <div class="arena-body">
+          <p class="arena-desc">Focuses on your <strong>Pets & Pet Skills</strong>. Pet skills activate automatically during combat — you just need to have trained and leveled them properly. A strong pet collection with high-tier skills is key to dominating this arena.</p>
+          <div class="arena-meta">
+            <div class="ratio-card">
+              <div class="ratio-label">Troop Ratio</div>
+              <div class="ratio-numbers">
+                <span class="ratio-num inf">50</span><span class="ratio-sep">/</span>
+                <span class="ratio-num cav">15</span><span class="ratio-sep">/</span>
+                <span class="ratio-num arc">35</span>
+              </div>
+              <div class="ratio-bar">
+                <div class="ratio-bar-seg bar-inf" style="flex: 50"></div>
+                <div class="ratio-bar-seg bar-cav" style="flex: 15"></div>
+                <div class="ratio-bar-seg bar-arc" style="flex: 35"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CRYSTAL CAVE -->
+    <div class="arena-section" id="crystal">
+      <div class="arena-card">
+        <div class="arena-card-header">
+          <div class="arena-icon cav">💎</div>
+          <div class="arena-header-text">
+            <div class="arena-name">Crystal Cave</div>
+            <div class="arena-tag">Arena 3 · Governor Charms</div>
+          </div>
+        </div>
+        <div class="arena-body">
+          <p class="arena-desc">Utilizes your <strong>Governor Charm stats</strong>. Charms are collectible boosts tied to your Governor profile that enhance specific combat and development stats. Unlocking and upgrading your charm collection is essential to performing well here.</p>
+          <div class="arena-meta">
+            <div class="ratio-card">
+              <div class="ratio-label">Troop Ratio</div>
+              <div class="ratio-numbers">
+                <span class="ratio-num inf">60</span><span class="ratio-sep">/</span>
+                <span class="ratio-num cav">20</span><span class="ratio-sep">/</span>
+                <span class="ratio-num arc">20</span>
+              </div>
+              <div class="ratio-bar">
+                <div class="ratio-bar-seg bar-inf" style="flex: 60"></div>
+                <div class="ratio-bar-seg bar-cav" style="flex: 20"></div>
+                <div class="ratio-bar-seg bar-arc" style="flex: 20"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KNOWLEDGE NEXUS -->
+    <div class="arena-section" id="nexus">
+      <div class="arena-card">
+        <div class="arena-card-header">
+          <div class="arena-icon kno">📚</div>
+          <div class="arena-header-text">
+            <div class="arena-name">Knowledge Nexus</div>
+            <div class="arena-tag">Arena 4 · Research</div>
+          </div>
+        </div>
+        <div class="arena-body">
+          <p class="arena-desc">Tests your <strong>Academy Tech and War Academy Tech</strong> research. The deeper you've researched your tech trees — both civilian and military — the stronger you'll perform. This arena rewards long-term investment in upgrading your Academy.</p>
+          <div class="arena-meta">
+            <div class="ratio-card">
+              <div class="ratio-label">Troop Ratio</div>
+              <div class="ratio-numbers">
+                <span class="ratio-num inf">50</span><span class="ratio-sep">/</span>
+                <span class="ratio-num cav">20</span><span class="ratio-sep">/</span>
+                <span class="ratio-num arc">30</span>
+              </div>
+              <div class="ratio-bar">
+                <div class="ratio-bar-seg bar-inf" style="flex: 50"></div>
+                <div class="ratio-bar-seg bar-cav" style="flex: 20"></div>
+                <div class="ratio-bar-seg bar-arc" style="flex: 30"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOLTEN FORT -->
+    <div class="arena-section" id="molten">
+      <div class="arena-card">
+        <div class="arena-card-header">
+          <div class="arena-icon mol">🔥</div>
+          <div class="arena-header-text">
+            <div class="arena-name">Molten Fort</div>
+            <div class="arena-tag">Arena 5 · Governor Gear</div>
+          </div>
+        </div>
+        <div class="arena-body">
+          <p class="arena-desc">Challenges the effectiveness of your <strong>Governor Gear</strong>. Unlike Hero Gear, Governor Gear is worn by your governor character directly and provides base stat bonuses. The better your gear tier and enhancements, the more damage you'll deal here.</p>
+          <div class="arena-meta">
+            <div class="ratio-card">
+              <div class="ratio-label">Troop Ratio</div>
+              <div class="ratio-numbers">
+                <span class="ratio-num inf">60</span><span class="ratio-sep">/</span>
+                <span class="ratio-num cav">15</span><span class="ratio-sep">/</span>
+                <span class="ratio-num arc">25</span>
+              </div>
+              <div class="ratio-bar">
+                <div class="ratio-bar-seg bar-inf" style="flex: 60"></div>
+                <div class="ratio-bar-seg bar-cav" style="flex: 15"></div>
+                <div class="ratio-bar-seg bar-arc" style="flex: 25"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RADIANT SPIRE -->
+    <div class="arena-section" id="spire">
+      <div class="arena-card">
+        <div class="arena-card-header">
+          <div class="arena-icon rad">🌟</div>
+          <div class="arena-header-text">
+            <div class="arena-name">Radiant Spire</div>
+            <div class="arena-tag">Arena 6 · Ultimate Challenge</div>
+          </div>
+        </div>
+        <div class="arena-body">
+          <p class="arena-desc">The <strong>ultimate arena</strong> — combines ALL stat sources from every other arena. Heroes, Pets, Charms, Research, and Governor Gear all count here. Uniquely, you are also allowed to use your <strong>personal troops</strong>, making your troop count and quality a direct factor in your success.</p>
+          <div class="arena-meta">
+            <div class="ratio-card">
+              <div class="ratio-label">Troop Ratio</div>
+              <div class="ratio-numbers">
+                <span class="ratio-num inf">50</span><span class="ratio-sep">/</span>
+                <span class="ratio-num cav">15</span><span class="ratio-sep">/</span>
+                <span class="ratio-num arc">35</span>
+              </div>
+              <div class="ratio-bar">
+                <div class="ratio-bar-seg bar-inf" style="flex: 50"></div>
+                <div class="ratio-bar-seg bar-cav" style="flex: 15"></div>
+                <div class="ratio-bar-seg bar-arc" style="flex: 35"></div>
+              </div>
+              <div class="unlock-badge">👑 Personal Troops Allowed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK REFERENCE TABLE -->
+    <div class="overview-section" id="table">
+      <h2>Quick Reference</h2>
+      <table class="wiki-table">
+        <thead>
+        <tr>
+          <th>Arena</th>
+          <th>Tests</th>
+          <th>Infantry / Cavalry / Archers</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>🏟️ Coliseum</td>
+          <td style="color: var(--color-text-muted);">Heroes, Hero Gear, Widgets</td>
+          <td><div class="ratio-inline"><span style="color:#4e9af1">50</span><span style="color:var(--color-text-faint)">/</span><span style="color:#c9993a">10</span><span style="color:var(--color-text-faint)">/</span><span style="color:#6db86d">40</span></div></td>
+        </tr>
+        <tr>
+          <td>🌿 Forest of Life</td>
+          <td style="color: var(--color-text-muted);">Pets & Pet Skills</td>
+          <td><div class="ratio-inline"><span style="color:#4e9af1">50</span><span style="color:var(--color-text-faint)">/</span><span style="color:#c9993a">15</span><span style="color:var(--color-text-faint)">/</span><span style="color:#6db86d">35</span></div></td>
+        </tr>
+        <tr>
+          <td>💎 Crystal Cave</td>
+          <td style="color: var(--color-text-muted);">Governor Charms</td>
+          <td><div class="ratio-inline"><span style="color:#4e9af1">60</span><span style="color:var(--color-text-faint)">/</span><span style="color:#c9993a">20</span><span style="color:var(--color-text-faint)">/</span><span style="color:#6db86d">20</span></div></td>
+        </tr>
+        <tr>
+          <td>📚 Knowledge Nexus</td>
+          <td style="color: var(--color-text-muted);">Academy & War Academy Research</td>
+          <td><div class="ratio-inline"><span style="color:#4e9af1">50</span><span style="color:var(--color-text-faint)">/</span><span style="color:#c9993a">20</span><span style="color:var(--color-text-faint)">/</span><span style="color:#6db86d">30</span></div></td>
+        </tr>
+        <tr>
+          <td>🔥 Molten Fort</td>
+          <td style="color: var(--color-text-muted);">Governor Gear</td>
+          <td><div class="ratio-inline"><span style="color:#4e9af1">60</span><span style="color:var(--color-text-faint)">/</span><span style="color:#c9993a">15</span><span style="color:var(--color-text-faint)">/</span><span style="color:#6db86d">25</span></div></td>
+        </tr>
+        <tr>
+          <td>🌟 Radiant Spire</td>
+          <td style="color: var(--color-text-muted);">All Stats + Personal Troops</td>
+          <td><div class="ratio-inline"><span style="color:#4e9af1">50</span><span style="color:var(--color-text-faint)">/</span><span style="color:#c9993a">15</span><span style="color:var(--color-text-faint)">/</span><span style="color:#6db86d">35</span></div></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>Kingshot Wiki · Community-maintained · Not affiliated with official developers</p>
+</footer>
+
+<script>
+  (function(){
+    const t = document.querySelector('[data-theme-toggle]');
+    const r = document.documentElement;
+    let d = r.getAttribute('data-theme') || 'dark';
+    function updateIcon() {
+      t.innerHTML = d === 'dark'
+        ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+        : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    }
+    updateIcon();
+    t && t.addEventListener('click', () => {
+      d = d === 'dark' ? 'light' : 'dark';
+      r.setAttribute('data-theme', d);
+      updateIcon();
+    });
+
+    // TOC active state on scroll
+    const sections = document.querySelectorAll('.arena-section, .section-intro, .overview-section');
+    const tocLinks = document.querySelectorAll('.toc-list a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector('.toc-list a[href="#' + entry.target.id + '"]');
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+  })();
+</script>
+</body>
+</html>
